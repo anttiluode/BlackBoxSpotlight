@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><title>BlackBox Spotlight · Head observatory</title>
+<style>
+:root{--bg:#101414;--card:#151b1b;--ink:#f3f3e8;--muted:#a7b6b2;--line:#354241;--c:#81e9cc;--hot:#ffbc70;font:16px/1.45 "Segoe UI",system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+*{box-sizing:border-box}body{margin:0}main,header,footer{max-width:1190px;margin:auto;padding:0 28px}header{display:flex;align-items:center;justify-content:space-between;padding-top:23px;padding-bottom:23px;border-bottom:1px solid var(--line)}header b{letter-spacing:.02em}a{color:var(--c);text-underline-offset:4px}.logo{display:inline-block;background:repeating-linear-gradient(110deg,var(--c) 0px,var(--c) 3px,transparent 4px,transparent 7px);width:24px;height:18px;vertical-align:middle;margin-right:9px}
+h1,h2,h3,p{margin:0}h1{font-size:clamp(2.6rem,6vw,5.2rem);font-weight:550;letter-spacing:-.065em;line-height:1.02}h2{font-size:1.45rem;font-weight:550;letter-spacing:-.035em}h3{font-size:1rem}p,.hint{color:var(--muted)}.intro{padding:40px 0 25px}.intro p{margin-top:12px;max-width:710px;font-size:1.08rem}
+.grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(290px,1fr);border:1px solid var(--line);background:var(--card)}section{padding:22px}.side{border-left:1px solid var(--line);display:flex;flex-direction:column;gap:16px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.label,.axis,output,.metric{font:12px/1.4 ui-monospace,"Cascadia Mono",monospace}.label{color:var(--muted);text-transform:uppercase;letter-spacing:.07em}.map{margin-top:14px}canvas{width:100%;height:auto;display:block;background:#111717}.axis{color:var(--muted);margin:5px 0}.legend{display:flex;gap:15px;flex-wrap:wrap;color:var(--muted);font-size:.8rem}.dot{display:inline-block;width:9px;height:9px;background:var(--c);margin-right:5px}.amber{background:var(--hot)}label{display:block;margin-bottom:6px}
+textarea,select,button{font:inherit;color:var(--ink);border:1px solid #4b5956;background:#1e2727;border-radius:4px}textarea,select{width:100%;padding:8px 10px}textarea{resize:vertical;min-height:78px;line-height:1.4}button{padding:7px 13px;cursor:pointer}button:hover,select:hover{border-color:var(--c)}button:focus-visible,input:focus-visible,canvas:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--hot);outline-offset:3px}button.primary{background:var(--c);border-color:var(--c);color:#082b21;font-weight:650}.actions{display:flex;gap:8px;flex-wrap:wrap}.hint{font-size:.85rem}output{display:block;color:var(--hot);min-height:1em}.readout{border-top:1px solid var(--line);padding-top:12px}.readout strong{display:block;font-size:1.25rem;margin-top:4px}input[type=range]{width:100%;accent-color:var(--c)}
+.detail{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding:24px 0 12px}.detail article{border-top:1px solid var(--line);padding-top:16px}.detail p{margin:8px 0}table{width:100%;border-collapse:collapse;text-align:left;margin-top:10px;font-size:.85rem}td,th{padding:6px 4px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:500}footer{color:var(--muted);padding-top:16px;padding-bottom:30px;font-size:.85rem}.error{color:#ffc28d}.key{color:var(--c)}
+@media(max-width:750px){main,header,footer{padding-left:14px;padding-right:14px}.grid,.detail{grid-template-columns:1fr}.side{border-left:0;border-top:1px solid var(--line)}section{padding:15px}.intro{padding:25px 0 18px}.detail{gap:16px}}
+</style></head><body>
+<header><b><span class="logo"></span>BlackBox Spotlight</b><a href="https://github.com/anttiluode/BlackBoxSpotlight">Repository ↗</a></header>
+<main><div class="intro"><h1>Where did the head look?</h1><p>The seeker heard only a trained attention head’s output. Give it a new sequence, inspect its routing prediction, then open the head and compare.</p></div>
+<div class="grid"><section><div class="top"><h2 id="mapTitle">Predicted routing</h2><span class="label">OneTinyTransformer</span></div>
+<div class="map"><canvas id="map" width="700" height="360" aria-label="Predicted attention from each reading position to earlier word positions"></canvas></div>
+<div class="axis">Source word position → &nbsp; · &nbsp; rows follow the sequence downward</div><div class="legend"><span><i class="dot"></i>Measured distances, 0–16</span><span><i class="dot amber"></i>Forecast distances, 17–23</span></div>
+<div class="readout" style="margin-top:16px"><label for="position" id="posLabel"></label><input id="position" type="range" min="1" max="24" value="24"><div id="strongest" class="hint"></div></div>
+</section><section class="side"><div><label for="head" class="label">Measured head</label><select id="head"><option value="L1H1">Layer 1 · Head 1</option><option value="L1H2">Layer 1 · Head 2</option></select></div>
+<div><label for="rule" class="label">Prediction rule</label><select id="rule"><option value="full">Word pair × distance + forecast</option><option value="lag">Distance only</option><option value="content">Word pair only</option></select></div>
+<div><label for="input" class="label">Prompt · up to 24 words</label><textarea id="input" spellcheck="false"></textarea><p class="hint" id="lexicon"></p></div>
+<div class="actions"><button id="predict" class="primary">Predict routing</button><button id="edit">Change word 2</button></div><output id="message" role="status"></output>
+<div class="readout"><span class="label">Answer key</span><strong id="status">Sealed</strong><p class="hint" id="comparison">Reveal the trained head’s routing for the selected word.</p></div>
+<div class="actions"><button id="reveal">Reveal actual routing</button><button id="toggle" hidden>Show prediction</button></div>
+</section></div>
+<div class="detail"><article><h2>What the probes measured</h2><p>A single word gives its value vector. With three distinct words, the mixed output can locate their contributions inside a triangle. The seeker chooses a third word that makes the triangle easy to measure.</p><p>It collected 1,032 outputs per head across eight words. Each pair of words had a different response as the distance between them changed. One shared recurrence then forecast the seven unmeasured distances. After revealing the head, switch to “Distance only” to see how much routing the word identities explain.</p></article>
+<article><h2>The clocks it could hear</h2><p>Fastest oscillations inferred for the selected head, in radians per token. The known frequencies are revealed here for comparison.</p><table><thead><tr><th>Mode</th><th>Inferred</th><th>Model</th></tr></thead><tbody id="modes"></tbody></table><p class="hint">Slower model clocks remain unresolved over this window. Both layer 2 heads broke the value-mixture assumption on probe nine.</p></article></div></main>
+<footer>Runs locally with frozen weights and the measured inverse. The map shows attention probabilities. The laboratory measures one head before its output is combined with the others.</footer>
+<script>
+const DATA = /* BUNDLE */null;
+const el = id => document.getElementById(id);
+const example = 'the storm moves across the dark sea . the moon moves across the sea . the storm moves across the dark sea .';
+el('input').value=example;
+el('lexicon').textContent='Available words: '+DATA.words.join(' · ');
+let ids=[], prediction=[], truth=null, actualView=false, selected=0, activeHead='L1H1';
+const softmax = a => {const top=Math.max(...a), w=a.map(x=>Math.exp(x-top)), total=w.reduce((a,b)=>a+b,0);return w.map(x=>x/total)};
+const dot = (a,b) => a.reduce((s,x,j)=>s+x*b[j],0);
+function normalized(a){const mean=a.reduce((x,y)=>x+y)/a.length;const v=a.reduce((s,x)=>s+(x-mean)**2,0)/a.length;return a.map(x=>(x-mean)/Math.sqrt(v+1e-5))}
+function rotated(id,position,axis,head){
+ const value=normalized(DATA.emb[id]), d=DATA.dimension, h=DATA.width, w=DATA.qkv[axis];
+ const z=Array.from({length:h},(_,i)=>dot(value,w.slice((head*h+i)*d,(head*h+i+1)*d)));
+ for(let i=0;i<h;i+=2){const t=position*DATA.base**(-i/h),a=z[i],b=z[i+1];z[i]=a*Math.cos(t)-b*Math.sin(t);z[i+1]=a*Math.sin(t)+b*Math.cos(t)}
+ return z;
+}
+function answerKey(tokens,head){
+ const keys=tokens.map((k,i)=>rotated(k,i,'wk',head));
+ return tokens.map((q,i)=>{const query=rotated(q,i,'wq',head);return softmax(keys.slice(0,i+1).map(k=>dot(query,k)/Math.sqrt(DATA.width)))});
+}
+function predicted(tokens,law,kind){
+ const table=law.table, limit=DATA.receipt.measured_max_lag;
+ function score(q,k,d){
+  if(d===0)return 0;
+  if(kind==='content')return table[q][k].slice(1,limit+1).reduce((s,x)=>s+x,0)/limit;
+  if(kind==='lag'){
+   const at=Math.min(d,limit);let sum=0;
+   for(const row of table)for(const pair of row)sum+=pair[at];
+   return sum/(table.length**2);
+  }
+  return table[q][k][d];
+ }
+ return tokens.map((q,i)=>softmax(tokens.slice(0,i+1).map((k,j)=>score(q,k,i-j))));
+}
+function parse(){
+ const text=el('input').value.trim().toLowerCase();
+ const words=text.replaceAll('.',' . ').trim().split(/\s+/).filter(Boolean);
+ if(!words.length||words.length>24)throw Error('Enter 1–24 words, counting each period as a word.');
+ for(const w of words)if(!DATA.words.includes(w))throw Error('Unknown word “'+w+'”. Choose from the vocabulary above.');
+ return words.map(w=>DATA.words.indexOf(w));
+}
+function run(){
+ try{ids=parse()}catch(e){el('message').textContent=e.message;return}
+ const h=el('head').value;activeHead=h;prediction=predicted(ids,DATA.laws[h],el('rule').value);truth=null;actualView=false;selected=ids.length-1;
+ el('position').max=ids.length;el('position').value=ids.length;el('message').textContent='Prediction ready for '+ids.length+' positions.';
+ const modes=DATA.receipt.subjects[h].forecast.modes.slice(0,3);
+ el('modes').replaceChildren(...modes.map((m,i)=>{const row=document.createElement('tr');for(const val of [i+1,m.radians_per_token.toFixed(4),DATA.receipt.position_encoding_key[i].toFixed(4)]){const td=document.createElement('td');td.textContent=val;row.append(td)}return row}));
+ draw();
+}
+function draw(){
+ const canvas=el('map'),ctx=canvas.getContext('2d'), matrix=actualView?truth:prediction;
+ if(!matrix)return;
+ const n=ids.length, W=canvas.width,H=canvas.height,left=32,top=12,cw=(W-left-10)/n,ch=(H-top-26)/n;
+ ctx.fillStyle='#111717';ctx.fillRect(0,0,W,H);ctx.font='11px monospace';
+ matrix.forEach((row,i)=>{row.forEach((p,j)=>{
+   const color=i-j>16?[255,188,112]:[129,233,204], light=Math.sqrt(p);
+   ctx.fillStyle='rgb('+color.map(c=>Math.round(25+(c-25)*light)).join(',')+')';
+   ctx.fillRect(left+j*cw,top+i*ch,Math.max(1,cw-1),Math.max(1,ch-1));
+ });if(i===0||i===selected||((i+1)%4===0&&Math.abs(i-selected)>1)){ctx.fillStyle='#aab9b3';ctx.textAlign='right';ctx.fillText(i+1,left-5,top+(i+.75)*ch)}});
+ ctx.strokeStyle='#f2f4df';ctx.strokeRect(left-.5,top+selected*ch-.5,cw*(selected+1),ch);
+ for(let j=0;j<n;j++)if(j===0||(j+1)%4===0||j===n-1){ctx.fillStyle='#b7c6bf';ctx.textAlign='center';ctx.fillText(j+1,left+(j+.5)*cw,H-7)}
+ el('posLabel').textContent='Reading word '+(selected+1)+' · '+DATA.words[ids[selected]];
+ const p=matrix[selected], best=p.indexOf(Math.max(...p));
+ el('strongest').textContent='Strongest source: '+DATA.words[ids[best]]+' at position '+(best+1)+' · '+(100*p[best]).toFixed(2)+'% of attention.';
+ el('mapTitle').textContent=actualView?'Actual routing':'Predicted routing';
+ el('status').textContent=truth?'Revealed':'Sealed';
+ el('comparison').textContent=truth?'Routing mass misplaced at this row: '+(50*prediction[selected].reduce((s,w,j)=>s+Math.abs(w-truth[selected][j]),0)).toPrecision(3)+'%.':'Reveal the trained head’s routing for the selected word.';
+ el('reveal').hidden=!!truth;el('toggle').hidden=!truth;el('toggle').textContent=actualView?'Show prediction':'Show actual routing';
+}
+el('rule').onchange=()=>{prediction=predicted(ids,DATA.laws[activeHead],el('rule').value);actualView=false;draw()};
+el('predict').onclick=run;el('head').onchange=()=>{run();el('head').value=activeHead};
+el('input').oninput=()=>{el('message').textContent='Edited prompt. Choose Predict routing to update the map.'};
+el('edit').onclick=()=>{let a;try{a=parse()}catch(e){el('message').textContent=e.message;return}if(a.length<2){el('message').textContent='Enter at least two words to change word 2.';return}a[1]=a[1]===1?6:1;el('input').value=a.map(k=>DATA.words[k]).join(' ');run()};
+el('reveal').onclick=()=>{truth=answerKey(ids,activeHead==='L1H1'?0:1);actualView=true;draw()};
+el('toggle').onclick=()=>{actualView=!actualView;draw()};
+el('position').oninput=()=>{selected=Number(el('position').value)-1;draw()};
+el('map').onclick=e=>{const r=e.target.getBoundingClientRect(),y=(e.clientY-r.top)*e.target.height/r.height;selected=Math.max(0,Math.min(ids.length-1,Math.floor((y-12)*ids.length/(e.target.height-38))));el('position').value=selected+1;draw()};
+run();
+</script></body></html>

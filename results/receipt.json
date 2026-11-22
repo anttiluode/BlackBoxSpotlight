@@ -1,0 +1,522 @@
+{
+  "vocabulary": [
+    "the",
+    "storm",
+    "moves",
+    "across",
+    "dark",
+    "sea",
+    "moon",
+    "."
+  ],
+  "measured_max_lag": 16,
+  "forecast_max_lag": 23,
+  "validation_seed": 102,
+  "test_seeds": [
+    301,
+    302,
+    303
+  ],
+  "subjects": {
+    "L1H1": {
+      "status": "selected",
+      "selected": "pair \u00d7 lag",
+      "validation_nrmse": {
+        "uniform": 0.8367354520661415,
+        "lag": 0.8341121558398094,
+        "token pair": 0.536748803959762,
+        "pair + query-specific lag": 0.5267044399703992,
+        "pair \u00d7 lag": 4.709377895352886e-14
+      },
+      "probe": {
+        "queries": 1032,
+        "max_relative_span_error": 1.1112024881060662e-15
+      },
+      "forecast": {
+        "order": 9,
+        "validation_log_odds_rmse": [
+          1.3371721717939717,
+          1.230207423408563,
+          1.4429720432476656,
+          0.8144338562914973,
+          0.5179113352683221,
+          0.19295614311769022,
+          0.09611164271555955,
+          0.009047734661975029,
+          0.001137071980132143,
+          9.727072405041561e-05,
+          0.00014376557303400625
+        ],
+        "coefficients_with_intercept": [
+          0.994818181183197,
+          -7.780991630590677,
+          27.85901197110348,
+          -60.20074392906858,
+          86.83571458391805,
+          -86.88018046221028,
+          60.29454523308272,
+          -27.93330761673189,
+          7.811133497790697,
+          6.75997322547665e-08
+        ],
+        "modes": [
+          {
+            "radians_per_token": 1.0000000507311806,
+            "radius": 0.9999999965230869
+          },
+          {
+            "radians_per_token": 0.46417085312382983,
+            "radius": 1.0000151982122525
+          },
+          {
+            "radians_per_token": 0.21579731440315186,
+            "radius": 1.0000572703285489
+          },
+          {
+            "radians_per_token": 0.07927433222409043,
+            "radius": 0.9988470423454242
+          }
+        ]
+      },
+      "test": {
+        "301": {
+          "within": {
+            "uniform": {
+              "output_nrmse": 0.8188048522721507,
+              "mean_tv": 0.4256096361441045,
+              "distant_log_odds_rmse": null
+            },
+            "lag": {
+              "output_nrmse": 0.8172174466173512,
+              "mean_tv": 0.4252900763748812,
+              "distant_log_odds_rmse": null
+            },
+            "token pair": {
+              "output_nrmse": 0.5399852629601856,
+              "mean_tv": 0.2915089767097344,
+              "distant_log_odds_rmse": null
+            },
+            "pair + query-specific lag": {
+              "output_nrmse": 0.5139443096440486,
+              "mean_tv": 0.27181263606968087,
+              "distant_log_odds_rmse": null
+            },
+            "pair \u00d7 lag": {
+              "output_nrmse": 3.1878909311014186e-14,
+              "mean_tv": 7.497293809879285e-15,
+              "distant_log_odds_rmse": null
+            }
+          },
+          "beyond": {
+            "hold last lag": {
+              "output_nrmse": 0.4796882126954016,
+              "mean_tv": 0.16165255881081997,
+              "distant_log_odds_rmse": 1.2289640876427321
+            },
+            "shared recurrence": {
+              "output_nrmse": 0.0005216171521464998,
+              "mean_tv": 0.00010951769636247346,
+              "distant_log_odds_rmse": 0.0009605321712611786
+            }
+          },
+          "edit_relative_rmse": 0.0003021160708007261
+        },
+        "302": {
+          "within": {
+            "uniform": {
+              "output_nrmse": 0.8183687262637075,
+              "mean_tv": 0.42685938047347927,
+              "distant_log_odds_rmse": null
+            },
+            "lag": {
+              "output_nrmse": 0.8187395363060195,
+              "mean_tv": 0.4268110630732569,
+              "distant_log_odds_rmse": null
+            },
+            "token pair": {
+              "output_nrmse": 0.5544369833297198,
+              "mean_tv": 0.2982849123168544,
+              "distant_log_odds_rmse": null
+            },
+            "pair + query-specific lag": {
+              "output_nrmse": 0.533141682470289,
+              "mean_tv": 0.28181697172636483,
+              "distant_log_odds_rmse": null
+            },
+            "pair \u00d7 lag": {
+              "output_nrmse": 2.945872258624445e-14,
+              "mean_tv": 7.618062496949382e-15,
+              "distant_log_odds_rmse": null
+            }
+          },
+          "beyond": {
+            "hold last lag": {
+              "output_nrmse": 0.5574571094066691,
+              "mean_tv": 0.18900413224657214,
+              "distant_log_odds_rmse": 1.3284275846185825
+            },
+            "shared recurrence": {
+              "output_nrmse": 0.0008149181347043705,
+              "mean_tv": 0.00016256101271215433,
+              "distant_log_odds_rmse": 0.0011541764089489043
+            }
+          },
+          "edit_relative_rmse": 0.0005625924031056462
+        },
+        "303": {
+          "within": {
+            "uniform": {
+              "output_nrmse": 0.8405680643905645,
+              "mean_tv": 0.43724430593192287,
+              "distant_log_odds_rmse": null
+            },
+            "lag": {
+              "output_nrmse": 0.8366503454189784,
+              "mean_tv": 0.4353394743583049,
+              "distant_log_odds_rmse": null
+            },
+            "token pair": {
+              "output_nrmse": 0.5541948512392121,
+              "mean_tv": 0.3161101669832271,
+              "distant_log_odds_rmse": null
+            },
+            "pair + query-specific lag": {
+              "output_nrmse": 0.5140994308984288,
+              "mean_tv": 0.2886466601332224,
+              "distant_log_odds_rmse": null
+            },
+            "pair \u00d7 lag": {
+              "output_nrmse": 3.0607810897857247e-14,
+              "mean_tv": 8.738066846291194e-15,
+              "distant_log_odds_rmse": null
+            }
+          },
+          "beyond": {
+            "hold last lag": {
+              "output_nrmse": 0.5575220801712965,
+              "mean_tv": 0.18290188659051537,
+              "distant_log_odds_rmse": 1.3761061711562028
+            },
+            "shared recurrence": {
+              "output_nrmse": 0.0005828013003365524,
+              "mean_tv": 0.00014200655098523017,
+              "distant_log_odds_rmse": 0.0010430622304451976
+            }
+          },
+          "edit_relative_rmse": 0.0005317250618048614
+        }
+      },
+      "routing_audit_pass": true,
+      "controls": {
+        "float32": {
+          "order": 10,
+          "output_nrmse": 0.004227605301884941,
+          "mean_tv": 0.0012954921656943225,
+          "distant_log_odds_rmse": 0.014069272555602702
+        },
+        "float16": {
+          "status": "unresolved",
+          "reason": "Output outside measured value span (0.000139 relative residual, 9 probes)"
+        },
+        "rotations_disabled": {
+          "selected": "token pair",
+          "validation_nrmse": {
+            "uniform": 0.9316705099834827,
+            "lag": 0.9314823374718665,
+            "token pair": 5.271181465483452e-14,
+            "pair + query-specific lag": 5.323331776324204e-14,
+            "pair \u00d7 lag": 4.231232578502883e-14
+          }
+        }
+      }
+    },
+    "L1H2": {
+      "status": "selected",
+      "selected": "pair \u00d7 lag",
+      "validation_nrmse": {
+        "uniform": 0.8615387516314263,
+        "lag": 0.8146797603917552,
+        "token pair": 0.3871441750199979,
+        "pair + query-specific lag": 0.3055776812338649,
+        "pair \u00d7 lag": 5.6529861030217784e-14
+      },
+      "probe": {
+        "queries": 1032,
+        "max_relative_span_error": 1.0446472190516372e-15
+      },
+      "forecast": {
+        "order": 9,
+        "validation_log_odds_rmse": [
+          0.7990591545015321,
+          0.825596218502175,
+          1.0007290452583044,
+          0.560849576882949,
+          0.3751506783210119,
+          0.24087201262700958,
+          0.05480898513312611,
+          0.009710193808357541,
+          0.0008721121092810594,
+          6.425419315589175e-05,
+          9.286558550982593e-05
+        ],
+        "coefficients_with_intercept": [
+          0.9929204219727923,
+          -7.769503082941121,
+          27.827426733041257,
+          -60.14911064885307,
+          86.78097854410295,
+          -86.84208761457096,
+          60.27797395523175,
+          -27.929403786050955,
+          7.810805316690016,
+          1.1819862877225471e-07
+        ],
+        "modes": [
+          {
+            "radians_per_token": 1.0000001028396142,
+            "radius": 1.0000000349077334
+          },
+          {
+            "radians_per_token": 0.46416121322764503,
+            "radius": 0.9999825318380566
+          },
+          {
+            "radians_per_token": 0.2151986422522484,
+            "radius": 0.9989062103243839
+          },
+          {
+            "radians_per_token": 0.07088468779779543,
+            "radius": 0.9993558461428712
+          }
+        ]
+      },
+      "test": {
+        "301": {
+          "within": {
+            "uniform": {
+              "output_nrmse": 0.8181203316107085,
+              "mean_tv": 0.392771821628153,
+              "distant_log_odds_rmse": null
+            },
+            "lag": {
+              "output_nrmse": 0.7598146820640517,
+              "mean_tv": 0.3736083011156822,
+              "distant_log_odds_rmse": null
+            },
+            "token pair": {
+              "output_nrmse": 0.3904372173449634,
+              "mean_tv": 0.19188628449683942,
+              "distant_log_odds_rmse": null
+            },
+            "pair + query-specific lag": {
+              "output_nrmse": 0.3225610520684669,
+              "mean_tv": 0.16553559254895495,
+              "distant_log_odds_rmse": null
+            },
+            "pair \u00d7 lag": {
+              "output_nrmse": 5.107070787817442e-14,
+              "mean_tv": 8.374906121888806e-14,
+              "distant_log_odds_rmse": null
+            }
+          },
+          "beyond": {
+            "hold last lag": {
+              "output_nrmse": 0.1582546252451632,
+              "mean_tv": 0.06548222190182276,
+              "distant_log_odds_rmse": 0.7226076864615119
+            },
+            "shared recurrence": {
+              "output_nrmse": 0.00015721332868226054,
+              "mean_tv": 4.589641195217396e-05,
+              "distant_log_odds_rmse": 0.000594038442757631
+            }
+          },
+          "edit_relative_rmse": 0.0003624916447560292
+        },
+        "302": {
+          "within": {
+            "uniform": {
+              "output_nrmse": 0.8310617590864896,
+              "mean_tv": 0.37941307185791145,
+              "distant_log_odds_rmse": null
+            },
+            "lag": {
+              "output_nrmse": 0.7907267756747112,
+              "mean_tv": 0.3672362322846553,
+              "distant_log_odds_rmse": null
+            },
+            "token pair": {
+              "output_nrmse": 0.4246760269966179,
+              "mean_tv": 0.20126889422001165,
+              "distant_log_odds_rmse": null
+            },
+            "pair + query-specific lag": {
+              "output_nrmse": 0.3291086451914774,
+              "mean_tv": 0.16465592419295616,
+              "distant_log_odds_rmse": null
+            },
+            "pair \u00d7 lag": {
+              "output_nrmse": 1.0381671843355899e-13,
+              "mean_tv": 8.964727743390198e-14,
+              "distant_log_odds_rmse": null
+            }
+          },
+          "beyond": {
+            "hold last lag": {
+              "output_nrmse": 0.1876897433252409,
+              "mean_tv": 0.08062830132545794,
+              "distant_log_odds_rmse": 0.9270212871765826
+            },
+            "shared recurrence": {
+              "output_nrmse": 0.0001813671333706031,
+              "mean_tv": 6.360614780739787e-05,
+              "distant_log_odds_rmse": 0.0007114356130865712
+            }
+          },
+          "edit_relative_rmse": 0.0003534653718343611
+        },
+        "303": {
+          "within": {
+            "uniform": {
+              "output_nrmse": 0.7974822534211783,
+              "mean_tv": 0.3752692425055668,
+              "distant_log_odds_rmse": null
+            },
+            "lag": {
+              "output_nrmse": 0.75128520529801,
+              "mean_tv": 0.3598556976179623,
+              "distant_log_odds_rmse": null
+            },
+            "token pair": {
+              "output_nrmse": 0.4103936215785497,
+              "mean_tv": 0.20711375712002983,
+              "distant_log_odds_rmse": null
+            },
+            "pair + query-specific lag": {
+              "output_nrmse": 0.34095921582489064,
+              "mean_tv": 0.16616976202128392,
+              "distant_log_odds_rmse": null
+            },
+            "pair \u00d7 lag": {
+              "output_nrmse": 1.0588877870994188e-13,
+              "mean_tv": 1.7074551811442024e-13,
+              "distant_log_odds_rmse": null
+            }
+          },
+          "beyond": {
+            "hold last lag": {
+              "output_nrmse": 0.13564723619379745,
+              "mean_tv": 0.0627487084043848,
+              "distant_log_odds_rmse": 0.879622783916987
+            },
+            "shared recurrence": {
+              "output_nrmse": 0.00013872580987313183,
+              "mean_tv": 4.4821950158018464e-05,
+              "distant_log_odds_rmse": 0.0006918431265960762
+            }
+          },
+          "edit_relative_rmse": 0.0003491021567213587
+        }
+      },
+      "routing_audit_pass": true,
+      "controls": {
+        "float32": {
+          "order": 10,
+          "output_nrmse": 0.002398241093037029,
+          "mean_tv": 0.0007705530534553189,
+          "distant_log_odds_rmse": 0.010763121008482849
+        },
+        "float16": {
+          "status": "unresolved",
+          "reason": "Output outside measured value span (0.000186 relative residual, 9 probes)"
+        },
+        "rotations_disabled": {
+          "selected": "token pair",
+          "validation_nrmse": {
+            "uniform": 0.847060449368527,
+            "lag": 0.8010752001211507,
+            "token pair": 2.157620894268943e-13,
+            "pair + query-specific lag": 2.125137610336402e-13,
+            "pair \u00d7 lag": 1.7885412528600358e-13
+          }
+        }
+      }
+    },
+    "L2H1": {
+      "status": "unresolved",
+      "reason": "Output outside measured value span (0.0192 relative residual, 9 probes)"
+    },
+    "L2H2": {
+      "status": "unresolved",
+      "reason": "Output outside measured value span (0.128 relative residual, 9 probes)"
+    }
+  },
+  "gates": {
+    "validation_output_nrmse": 0.01,
+    "audit_mean_tv": 0.01
+  },
+  "position_encoding_key": [
+    1.0,
+    0.4641588833612779,
+    0.2154434690031884,
+    0.1,
+    0.046415888336127795,
+    0.021544346900318832
+  ],
+  "transfer": {
+    "source": "L1H1",
+    "target": "L1H2",
+    "target_words": [
+      "train",
+      "river",
+      "night",
+      "wind",
+      "rain",
+      "light",
+      "sky",
+      "shore"
+    ],
+    "target_calibration": {
+      "queries": 1032,
+      "max_relative_span_error": 1.1026848510188722e-15
+    },
+    "test": {
+      "301": {
+        "hold last lag": {
+          "output_nrmse": 0.18906990159225545,
+          "mean_tv": 0.07827255358016896,
+          "distant_log_odds_rmse": 0.6818429110229761
+        },
+        "borrowed recurrence": {
+          "output_nrmse": 0.00017278334903165186,
+          "mean_tv": 5.81958426580564e-05,
+          "distant_log_odds_rmse": 0.0006395735870018173
+        }
+      },
+      "302": {
+        "hold last lag": {
+          "output_nrmse": 0.13964850313253213,
+          "mean_tv": 0.06772358418352228,
+          "distant_log_odds_rmse": 0.718049291156093
+        },
+        "borrowed recurrence": {
+          "output_nrmse": 0.0001693213219319633,
+          "mean_tv": 6.465309492310154e-05,
+          "distant_log_odds_rmse": 0.0006812371098119918
+        }
+      },
+      "303": {
+        "hold last lag": {
+          "output_nrmse": 0.14576689992855832,
+          "mean_tv": 0.06680287147643496,
+          "distant_log_odds_rmse": 0.6556623005347326
+        },
+        "borrowed recurrence": {
+          "output_nrmse": 0.00015825471563337922,
+          "mean_tv": 5.7810399939187064e-05,
+          "distant_log_odds_rmse": 0.0006795584033232962
+        }
+      }
+    }
+  }
+}
